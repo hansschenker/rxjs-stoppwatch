@@ -1,25 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>React Typescript Webpack Starter</title>
     <style>
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            width: 200px;
-        }
+      .button-group {
+        display: flex;
+        flex-direction: row;
+        justify-content:space-around;
+        width: 200px;
+      }
+      .time-group {
+        display: flex;
+        flex-direction: column;
+        justify-content:space-around;
+        width: 200px;
+      }
+      .time {
+        width: 15px;
+        font-size: large;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h3>React Typescript Webpack Starter</h3>
     <div id="root"></div>
-    <div class="button-group">
-        <button id="start">Start</button>
-        <button id="stopp">Stopp</button>
-        <button id="reset">Reset</button>
+    <div>
+      <div class="button-group">
+        <div class="time-group">
+            <span>Min</span>
+            <span id="minutes" class="time">00:</span>
+        </div>
+
+        <div class="time-group">
+            <span>Sec</span>
+            <span id="seconds" class="time">00:</span>
+        </div>
+        <div class="time-group">
+            <span>Ms</span>
+        <span id="milliseconds" class="time">00</span>
+        </div>
+      </div>
     </div>
-</body>
+    <div class="button-group">
+      <button id="start">Start</button>
+      <button id="stopp">Stopp</button>
+      <button id="reset">Reset</button>
+    </div>
+  </body>
 </html>

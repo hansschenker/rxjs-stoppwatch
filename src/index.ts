@@ -10,15 +10,54 @@ import {
   tap,
 } from "rxjs";
 
- const startButton = document.querySelector("#start");
-const stopButton = document.querySelector("#stopp");
-const resetButton = document.querySelector("#reset");
+type Time = {
+    minutes: number;
+    seconds: number;
+    milliseconds: number;
+}
+// time display
+const minutes = document.querySelector('#minutes')
+const seconds = document.querySelector('#seconds')
+const milliseconds = document.querySelector('#milliseconds')
 
-const start$ = fromEvent(startButton!, "click")
-const stop$ = fromEvent(stopButton!, "click");
-const reset$ = fromEvent(resetButton!, "click");
+const msToTime = (ms:number): Time => {
+    return ({
+        minutes: Math.floor(ms / 6000),
+        seconds: Math.floor((ms / 100) % 60),
+        milliseconds: Math.floor(ms % 100),
+    })
+}
+const pad0 = (n:number) => n <= 9? ('0' + n): n.toString()
 
-const interval$ = interval(1000)
+    function render(time: { minutes: number; seconds: number; milliseconds: number; }): void {
+    minutes!.innerHTML = pad0(time.minutes);
+    seconds!.innerHTML = pad0(time.seconds);
+    milliseconds!.innerHTML = pad0(time.milliseconds);
+}
+// buttons
+const startButton = document.querySelector("#start") as HTMLButtonElement;
+const stopButton = document.querySelector("#stopp")  as HTMLButtonElement;
+const resetButton = document.querySelector("#reset")  as HTMLButtonElement;
+
+const start$ = fromEvent(startButton!, "click").pipe(
+    tap(() => {
+        startButton!.textContent ="Resume";
+        startButton!.disabled = true
+    })
+)
+const stop$ = fromEvent(stopButton!, "click").pipe(
+    tap(() => {
+        startButton!.disabled = false;
+    })
+)
+const reset$ = fromEvent(resetButton!, "click").pipe(
+    tap(() => {
+        startButton!.textContent ="Start";
+        startButton!.disabled = false;
+    })
+)
+
+const interval$ = interval(1000 /60)
 
 const stopOrReset$ = merge(stop$, reset$);
 
@@ -44,4 +83,4 @@ const app$ = start$.pipe(
     scan((acc, curr) => curr(acc))
   )
 
-app$//.subscribe(console.log)
+app$.subscribe(ms => render(msToTime(ms)))
